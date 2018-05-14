@@ -16,15 +16,15 @@ public class GeneradorURLTest {
         mapaEstaticoBase = new HashMap<String, Object>();
         mapaDinamicoBase = new HashMap<String, Object>();
 
-        mapaEstaticoBase.put("url", "172.31.10.150");
-        mapaEstaticoBase.put("puerto", "9502");
-        mapaEstaticoBase.put("usuarioOBIEE", "usr_Estado");
-        mapaEstaticoBase.put("passwordOBIEE", "usr_3st4d0");
-        mapaEstaticoBase.put("accion", "Navigate");
+        mapaEstaticoBase.put(Utils.KEY_HOST, "172.31.10.150");
+        mapaEstaticoBase.put(Utils.KEY_PORT, "9502");
+        mapaEstaticoBase.put(Utils.KEY_USER, "usr_Estado");
+        mapaEstaticoBase.put(Utils.KEY_PASS, "usr_3st4d0");
+        mapaEstaticoBase.put(Utils.KEY_ACTION, "Navigate");
 
-        mapaDinamicoBase.put("Path", "/shared/Carpeta de Pruebas/_portal/");
-        mapaDinamicoBase.put("Panel", "PanelPruebaIntegracion");
-        mapaDinamicoBase.put("Page", "Principal");
+        mapaDinamicoBase.put(Utils.KEY_PATH, "/shared/Carpeta de Pruebas/_portal/");
+        mapaDinamicoBase.put(Utils.KEY_PANEL, "PanelPruebaIntegracion");
+        mapaDinamicoBase.put(Utils.KEY_PAGE, "Principal");
     }
 
     @Before

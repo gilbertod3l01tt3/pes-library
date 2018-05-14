@@ -7,6 +7,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Implementation of the IGeneradorURL contract.
+ *
+ */
 public class GeneradorURL implements IGeneradorURL {
     private Utils utils = new Utils();
 
@@ -14,19 +18,19 @@ public class GeneradorURL implements IGeneradorURL {
         if (utils.ValidadorMapaEstatico(mapaDeVariables)) {
             StringBuilder sb = new StringBuilder();
             sb.append("http://");
-            sb.append(mapaDeVariables.get("url").toString());
+            sb.append(mapaDeVariables.get(Utils.KEY_HOST).toString());
             sb.append(":");
-            sb.append(mapaDeVariables.get("puerto").toString());
+            sb.append(mapaDeVariables.get(Utils.KEY_PORT).toString());
             sb.append("/analytics/saw.dll?dashboard");
             sb.append("&NQUser=");
-            sb.append(mapaDeVariables.get("usuarioOBIEE").toString());
+            sb.append(mapaDeVariables.get(Utils.KEY_USER).toString());
             sb.append("&NQPassword=");
-            sb.append(mapaDeVariables.get("passwordOBIEE").toString());
+            sb.append(mapaDeVariables.get(Utils.KEY_PASS).toString());
             sb.append("&Action=");
-            sb.append(mapaDeVariables.get("accion").toString());
-            if (mapaDeVariables.containsKey("disabledFilters")) {
+            sb.append(mapaDeVariables.get(Utils.KEY_ACTION).toString());
+            if (mapaDeVariables.containsKey(Utils.KEY_DISABLED_FILTERS)) {
                 sb.append("&disabledFilters=");
-                sb.append(mapaDeVariables.get("disabledFilters").toString());
+                sb.append(mapaDeVariables.get(Utils.KEY_DISABLED_FILTERS).toString());
             }
             return sb;
         } else {
@@ -35,19 +39,18 @@ public class GeneradorURL implements IGeneradorURL {
     }
 
     public String GeneradorURLDinamica(HashMap<String, Object> mapaDeVariables) {
-
         if (utils.ValidadorMapaDinamico(mapaDeVariables)) {
             StringBuilder urlDin = new StringBuilder();
             urlDin.append("&PortalPath=");
-            String pathplain = mapaDeVariables.get("Path").toString() + mapaDeVariables.get("Panel").toString();
+            String pathplain = mapaDeVariables.get(Utils.KEY_PATH).toString() + mapaDeVariables.get(Utils.KEY_PANEL).toString();
             urlDin.append(pathplain);
-            mapaDeVariables.remove("Path");
-            mapaDeVariables.remove("Panel");
+            mapaDeVariables.remove(Utils.KEY_PATH);
+            mapaDeVariables.remove(Utils.KEY_PANEL);
 
-            if (mapaDeVariables.containsKey("Page")) {
+            if (mapaDeVariables.containsKey(Utils.KEY_PAGE)) {
                 urlDin.append("&Page=");
-                urlDin.append(mapaDeVariables.get("Page"));
-                mapaDeVariables.remove("Page");
+                urlDin.append(mapaDeVariables.get(Utils.KEY_PAGE));
+                mapaDeVariables.remove(Utils.KEY_PAGE);
             }
             int cuentaParametros = mapaDeVariables.size();
             if (cuentaParametros >= 1) {
@@ -84,13 +87,13 @@ public class GeneradorURL implements IGeneradorURL {
     public String ConcatenadorEncoder(StringBuilder urlEstatica, String urlDinamica) {
         if (urlEstatica.length() > 0 && urlDinamica.length() > 0) {
             urlEstatica.append(urlDinamica);
-            System.out.println("URL total en plano: " + urlEstatica.toString());
+            System.out.println("URL final: " + urlEstatica.toString());
             try {
                 URL url = new URL(urlEstatica.toString());
                 String encodedString = "";
                 URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
                 encodedString = uri.toASCIIString();
-                System.out.println("URL total encodeada: " + encodedString);
+                System.out.println("URL final encoded: " + encodedString);
                 return encodedString;
             } catch (URISyntaxException e) {
                 e.printStackTrace();
