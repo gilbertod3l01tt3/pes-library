@@ -35,7 +35,7 @@ public class GeneradorURLTest {
 
     @Test
     public void GeneradorURLEstaticaMapaIncompletoUrl() {
-        mapaEstaticoBase.remove("url");
+        mapaEstaticoBase.remove(Utils.KEY_HOST);
         assertTrue(null == generadorURL.GeneradorURLEstatica(mapaEstaticoBase));
     }
 
@@ -105,14 +105,14 @@ public class GeneradorURLTest {
     @Test
     public void GeneradorCompletoBadUri(){
         mapaEstaticoBase.put("disabledFilters", "1,2,3");
-        mapaEstaticoBase.remove("url");
-        mapaEstaticoBase.put("url", "172.31.10.15a");
+        mapaEstaticoBase.remove(Utils.KEY_HOST);
+        mapaEstaticoBase.put(Utils.KEY_HOST, "172.31.10.15a");
         mapaDinamicoBase.put("\"Ubicacion\".\"Entidad federativa\"", "PUEBLA,TLAXCALA");
         StringBuilder resultadoEstatico = generadorURL.GeneradorURLEstatica(mapaEstaticoBase);
         String resultadoDinamico = generadorURL.GeneradorURLDinamica(mapaDinamicoBase);
         String resultadoFinal = generadorURL.ConcatenadorEncoder(resultadoEstatico, resultadoDinamico);
-        System.out.println("Url final: "+resultadoFinal);
-        Assert.assertTrue(null==resultadoFinal);
+        System.out.println("Url final: "+ resultadoFinal);
+        Assert.assertTrue(null == resultadoFinal);
     }
 
 }
